@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELED
+}
+
+model User {
+  id        String     @id @default(cuid())
+  authId    String     @unique
+  email     String     @unique
+  role      Role       @default(CUSTOMER)
+  purchases Purchase[]
+  downloads Download[]
+  createdAt DateTime   @default(now())
+}
+
+model Template {
+  id                String      @id @default(cuid())
+  slug              String      @unique
+  name              String
+  description       String
+  category          String
+  tags              String[]
+  version           String
+  priceCents        Int
+  currency          String      @default("usd")
+  demoUrl           String
+  zipKey            String
+  featured          Boolean     @default(false)
+  performanceMobile Int
+  performanceDesktop Int
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  orderItems        OrderItem[]
+}
+
+model Purchase {
+  id                    String      @id @default(cuid())
+  userId                String
+  user                  User        @relation(fields: [userId], references: [id])
+  status                OrderStatus @default(PENDING)
+  stripeCheckoutSession String      @unique
+  stripePaymentIntent   String?
+  amountCents           Int
+  currency              String
+  items                 OrderItem[]
+  license               License?
+  createdAt             DateTime    @default(now())
+}
+
+model OrderItem {
+  id           String   @id @default(cuid())
+  purchaseId   String
+  templateId   String
+  purchase     Purchase @relation(fields: [purchaseId], references: [id])
+  template     Template @relation(fields: [templateId], references: [id])
+  priceAtCents Int
+}
+
+model License {
+  id          String   @id @default(cuid())
+  purchaseId  String   @unique
+  purchase    Purchase @relation(fields: [purchaseId], references: [id])
+  licenseType String
+  licenseText String
+  createdAt   DateTime @default(now())
+}
+
+model Download {
+  id         String   @id @default(cuid())
+  userId     String
+  templateId String
+  user       User     @relation(fields: [userId], references: [id])
+  ip         String?
+  createdAt  DateTime @default(now())
+}
