@@ -1,6 +1,16 @@
 import { prisma } from '../lib/prisma';
 
 async function main() {
+  const adminEmail = process.env.ADMIN_EMAIL;
+
+  if (adminEmail) {
+    await prisma.user.upsert({
+      where: { email: adminEmail },
+      update: { role: 'ADMIN' },
+      create: { email: adminEmail, role: 'ADMIN', name: 'Initial Admin' }
+    });
+  }
+
   await prisma.template.createMany({
     data: [
       { slug: 'saasflow-pro', name: 'SaaSFlow Pro', description: 'High-converting SaaS landing template.', category: 'SaaS', tags: ['B2B', 'SEO'], version: '1.0.0', priceCents: 5900, currency: 'usd', demoUrl: 'https://demo.bigsiteworks.com/saasflow-pro', zipKey: 'templates/saasflow-pro.zip', featured: true, performanceMobile: 93, performanceDesktop: 99 },

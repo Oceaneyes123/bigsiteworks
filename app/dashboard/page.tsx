@@ -16,6 +16,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-4">
       <h1 className="text-3xl font-bold">Your Purchases</h1>
+      <p className="text-sm text-slate-400">Signed in as {user.name ?? user.email}</p>
       {purchases.map((purchase) => (
         <div key={purchase.id} className="rounded border border-slate-700 p-4">
           <p className="text-sm">License: {purchase.license?.licenseType ?? 'Standard'}</p>

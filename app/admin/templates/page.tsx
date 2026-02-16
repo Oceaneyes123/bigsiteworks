@@ -5,7 +5,8 @@ import { prisma } from '@/lib/prisma';
 
 export default async function AdminTemplatesPage() {
   const user = await getSessionUser();
-  if (!user || user.role !== 'ADMIN') redirect('/signin');
+  if (!user) redirect('/signin');
+  if (user.role !== 'ADMIN') redirect('/dashboard');
   const templates = await prisma.template.findMany({ orderBy: { createdAt: 'desc' } });
 
   return (

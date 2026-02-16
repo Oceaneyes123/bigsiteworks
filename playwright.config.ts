@@ -6,6 +6,13 @@ export default defineConfig({
   webServer: {
     command: 'pnpm dev',
     port: 3000,
-    reuseExistingServer: true
+    reuseExistingServer: true,
+    env: {
+      ...process.env,
+      AUTH_TEST_MODE: 'true',
+      AUTH_TEST_EMAIL: process.env.AUTH_TEST_EMAIL ?? 'e2e-user@bigsiteworks.test',
+      AUTH_TEST_PASSWORD: process.env.AUTH_TEST_PASSWORD ?? 'password123',
+      ADMIN_EMAIL: process.env.ADMIN_EMAIL ?? 'admin@bigsiteworks.test'
+    }
   }
 });

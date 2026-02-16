@@ -18,7 +18,13 @@ const validator = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  await requireAdmin();
+  try {
+    await requireAdmin();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unauthorized';
+    return NextResponse.json({ error: message }, { status: message === 'Unauthorized' ? 401 : 403 });
+  }
+
   const form = await req.formData();
   const zip = form.get('zip');
   if (!(zip instanceof File) || !zip.name.endsWith('.zip')) return NextResponse.json({ error: 'Zip file required' }, { status: 400 });
