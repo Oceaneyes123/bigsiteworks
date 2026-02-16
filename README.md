@@ -26,6 +26,15 @@
    pnpm dev
    ```
 
+## Authentication
+
+- Auth.js v5 with Prisma adapter and **database sessions**.
+- OAuth providers: Google + GitHub.
+- Seeded initial admin user from `ADMIN_EMAIL`.
+- Optional non-production test mode: set `AUTH_TEST_MODE=true` and use credentials provider on `/signin`.
+
+See `docs/TESTING_AUTH.md` for e2e/CI auth strategy.
+
 ## Stripe webhook forwarding
 
 ```bash

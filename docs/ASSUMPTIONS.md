@@ -1,6 +1,6 @@
-# Assumptions
+# Assumptions (MVP)
 
-1. Local MVP authentication uses a secure HttpOnly session cookie created by `/api/session` for deterministic local testing, because third-party auth provisioning credentials are not available in this environment.
-2. Cart state is stored in browser localStorage to keep checkout UX lightweight for MVP.
-3. Download security uses short-lived S3 signed URLs generated only after paid ownership verification.
-4. Stripe webhook endpoint is consumed through Stripe CLI forwarding in local development.
+1. Authentication uses Auth.js v5 with Prisma/Postgres database sessions.
+2. OAuth providers (Google + GitHub) are configured for normal sign-in.
+3. `AUTH_TEST_MODE=true` is only used in non-production test runs to enable deterministic e2e credentials login.
+4. Stripe, S3 (MinIO), and Postgres run locally for end-to-end verification.

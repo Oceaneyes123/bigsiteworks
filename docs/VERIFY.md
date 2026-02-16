@@ -1,7 +1,7 @@
 # Verification Checklist
 
 ## Environment
-- [ ] `cp .env.example .env` and populate Stripe secrets.
+- [ ] `cp .env.example .env` and populate OAuth + Stripe secrets.
 - [ ] `docker compose up -d` starts Postgres + MinIO.
 - [ ] `pnpm install` succeeds.
 - [ ] `pnpm prisma:migrate && pnpm prisma:seed` succeeds.
@@ -12,7 +12,8 @@
 - [ ] Template detail shows performance score + live preview.
 
 ## Auth + Dashboard
-- [ ] Sign in via `/signin` creates session.
+- [ ] Sign in via `/signin` using Google or GitHub works.
+- [ ] With `AUTH_TEST_MODE=true`, credentials sign-in works.
 - [ ] Dashboard redirects unauthenticated users.
 - [ ] Paid purchases show license + download links.
 
@@ -27,7 +28,8 @@
 - [ ] Download audit log row is created.
 
 ## Admin
-- [ ] Admin route requires admin session.
+- [ ] Admin route requires authenticated admin session.
+- [ ] Non-admin users are blocked from admin routes server-side.
 - [ ] Uploading zip + metadata creates template record.
 - [ ] Uploaded template appears in public marketplace listing.
 

@@ -228,7 +228,7 @@ Positioning Examples:
 * Stripe payments
 * Supabase or Postgres
 * S3 storage for template zip
-* Auth via Clerk or JWT
+* Auth via Auth.js (NextAuth) with database sessions
 
 ## Admin
 
